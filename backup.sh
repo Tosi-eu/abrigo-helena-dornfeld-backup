@@ -15,6 +15,6 @@ pg_dump \
 
 echo "[Backup] Backup created: $BACKUP_FILE"
 
-find "$BACKUP_DIR" -type f -name "backup_*.sql.gz" -mmin +2880 -delete
+find "$BACKUP_DIR" -type f -name "backup_*.sql.gz" -mmin +4320 -delete
 
 echo "[Backup] Old backups cleaned"
