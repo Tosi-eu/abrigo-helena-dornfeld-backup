@@ -7,6 +7,8 @@ BACKUP_FILE="$BACKUP_DIR/backup_$TIMESTAMP.sql.gz"
 
 echo "[Backup] Starting backup at $TIMESTAMP"
 
+mkdir -p "$BACKUP_DIR"
+
 pg_dump \
   -h "$POSTGRES_HOST" \
   -U "$POSTGRES_USER" \
@@ -15,6 +17,10 @@ pg_dump \
 
 echo "[Backup] Backup created: $BACKUP_FILE"
 
-find "$BACKUP_DIR" -type f -name "backup_*.sql.gz" -mmin +4320 -delete
+echo "[Backup] Cleaning old backups (keeping latest only)"
 
-echo "[Backup] Old backups cleaned"
+ls -1t "$BACKUP_DIR"/backup_*.sql.gz \
+  | tail -n +2 \
+  | xargs -r rm --
+
+echo "[Backup] Cleanup done"
